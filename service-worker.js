@@ -2,13 +2,13 @@ self.addEventListener('install', function(event) {
     event.waitUntil(
         caches.open('v1').then(function(cache) {
             return cache.addAll([
-                '/index.html',
-                '/styles.css',
-                '/scripts.js',
-                '/jquery-3.6.0.min.js',
-                '/jquery-ui.min.js',
-                '/icon-192x192.png',
-                '/icon-512x512.png'
+                '/plot-editor/index.html',
+                '/plot-editor/styles.css',
+                '/plot-editor/scripts.js',
+                '/plot-editor/jquery-3.6.0.min.js',
+                '/plot-editor/jquery-ui.min.js',
+                '/plot-editor/icon-192x192.png',
+                '/plot-editor/icon-512x512.png'
             ]);
         })
     );
