@@ -38,7 +38,6 @@ $(function() {
         }
     }
 
-    // jQuery UIのsortable設定
     $(".column ul").sortable({
         handle: ".handle",
         placeholder: "ui-state-highlight",
@@ -46,21 +45,26 @@ $(function() {
         update: function(event, ui) {
             saveState();
             updatePageNumbers();
+        },
+        start: function(event, ui) {
+            if (event.originalEvent.type === "touchstart") {
+                let touch = event.originalEvent.touches[0];
+                ui.helper.css({
+                    left: touch.pageX,
+                    top: touch.pageY
+                });
+            }
+        },
+        sort: function(event, ui) {
+            if (event.originalEvent.type === "touchmove") {
+                let touch = event.originalEvent.touches[0];
+                ui.helper.css({
+                    left: touch.pageX,
+                    top: touch.pageY
+                });
+            }
         }
     }).disableSelection();
-
-    // mobile-drag-dropの設定
-    if (window.Touch) {
-        $('ul').each(function() {
-            this.addEventListener('dragstart', function(e) {
-                e.target.style.opacity = '0.4';
-            }, false);
-
-            this.addEventListener('dragend', function(e) {
-                e.target.style.opacity = '1';
-            }, false);
-        });
-    }
 
     $(".collapse-button").on("click", function() {
         const column = $(this).parent();
