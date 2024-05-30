@@ -5,6 +5,13 @@ body {
     display: flex;
 }
 
+.handle {
+    cursor: move;
+    margin-right: 10px;
+    touch-action: none; /* タッチイベントを無効化 */
+}
+
+
 .column {
     flex: 1;
     margin: 0 10px;
