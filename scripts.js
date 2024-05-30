@@ -66,7 +66,7 @@ $(function() {
         downloadPlots();
     });
 
-	$("#download-page").on("click", function() {
+    $("#download-page").on("click", function() {
         downloadPages();
     });
 
@@ -166,7 +166,8 @@ $(function() {
         a.click();
         URL.revokeObjectURL(url);
     }
-	function downloadPages() {
+
+    function downloadPages() {
         let pages = "";
         $("#page-board .text").each(function() {
             pages += $(this).val() + "\n";
