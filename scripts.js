@@ -45,6 +45,24 @@ $(function() {
         update: function(event, ui) {
             saveState();
             updatePageNumbers();
+        },
+        start: function(event, ui) {
+            if (event.originalEvent.type === "touchstart") {
+                let touch = event.originalEvent.touches[0];
+                ui.helper.css({
+                    left: touch.pageX,
+                    top: touch.pageY
+                });
+            }
+        },
+        sort: function(event, ui) {
+            if (event.originalEvent.type === "touchmove") {
+                let touch = event.originalEvent.touches[0];
+                ui.helper.css({
+                    left: touch.pageX,
+                    top: touch.pageY
+                });
+            }
         }
     }).disableSelection();
 
