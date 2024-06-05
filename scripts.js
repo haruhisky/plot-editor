@@ -289,6 +289,15 @@ $(function() {
             addEventListeners(newPage);
         });
 
+        // テキストエリアのサイズを自動調整
+        $("#plot-board .text").each(function() {
+            autoResizeTextarea(this);
+        });
+
+        $("#page-board .text").each(function() {
+            autoResizeTextarea(this);
+        });
+
         updatePageNumbers();
     }
 
