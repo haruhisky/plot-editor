@@ -10,6 +10,7 @@ $(function() {
         };
         undoStack.push(state);
         redoStack = [];  // Clear redo stack
+        updateProgress();
     }
 
     function restoreState(state) {
@@ -19,6 +20,7 @@ $(function() {
         addEventListeners($("#plot-board .page-item"));
         addEventListeners($("#page-board .page-item"));
         updatePageNumbers();
+        updateProgress();
     }
 
     function undo() {
@@ -121,6 +123,12 @@ $(function() {
             '<div class="handle">::</div>' +
             '<textarea class="text" data-default-text="" rows="1"></textarea>' +
             '<button class="small-button delete-page">削除</button>' +
+            '<div class="checkboxes">' +
+            '<label style="color: #D499B9;"><input type="checkbox" class="name-checkbox"> ネーム</label>' +
+            '<label style="color: #9055A2;"><input type="checkbox" class="rough-checkbox"> 下書き</label>' +
+            '<label style="color: #2E294E;"><input type="checkbox" class="pen-checkbox"> 線画</label>' +
+            '<label style="color: #011638;"><input type="checkbox" class="finish-checkbox"> 仕上げ</label>' +
+            '</div>' +
             '</div>' +
             '<div class="divider"></div>' +
             '<div class="dialogue-content">' +
@@ -209,7 +217,11 @@ $(function() {
         $("#page-board .page-item").each(function() {
             const page = {
                 content: $(this).find(".page-content .text").val(),
-                dialogues: []
+                dialogues: [],
+                name: $(this).find(".name-checkbox").is(":checked"),
+                rough: $(this).find(".rough-checkbox").is(":checked"),
+                pen: $(this).find(".pen-checkbox").is(":checked"),
+                finish: $(this).find(".finish-checkbox").is(":checked")
             };
 
             $(this).find(".dialogue-item .text").each(function() {
@@ -266,6 +278,12 @@ $(function() {
                 '<div class="handle">::</div>' +
                 '<textarea class="text" rows="1">' + page.content + '</textarea>' +
                 '<button class="small-button delete-page">削除</button>' +
+                '<div class="checkboxes">' +
+                '<label style="color: #D499B9;"><input type="checkbox" class="name-checkbox"' + (page.name ? ' checked' : '') + '> ネーム</label>' +
+                '<label style="color: #9055A2;"><input type="checkbox" class="rough-checkbox"' + (page.rough ? ' checked' : '') + '> 下書き</label>' +
+                '<label style="color: #2E294E;"><input type="checkbox" class="pen-checkbox"' + (page.pen ? ' checked' : '') + '> 線画</label>' +
+                '<label style="color: #011638;"><input type="checkbox" class="finish-checkbox"' + (page.finish ? ' checked' : '') + '> 仕上げ</label>' +
+                '</div>' +
                 '</div>' +
                 '<div class="divider"></div>' +
                 '<div class="dialogue-content">' +
@@ -299,6 +317,20 @@ $(function() {
         });
 
         updatePageNumbers();
+        updateProgress();
+    }
+
+    function updateProgress() {
+        const total = $("#page-board .page-item").length;
+        const nameCount = $("#page-board .name-checkbox:checked").length;
+        const roughCount = $("#page-board .rough-checkbox:checked").length;
+        const penCount = $("#page-board .pen-checkbox:checked").length;
+        const finishCount = $("#page-board .finish-checkbox:checked").length;
+
+        $("#name-progress").text(`ネーム:\n ${nameCount} / ${total} `);
+        $("#rough-progress").text(`下書き:\n ${roughCount} / ${total} `);
+        $("#pen-progress").text(`線画:　\n ${penCount} / ${total} `);
+        $("#finish-progress").text(`仕上げ:\n ${finishCount} / ${total} `);
     }
 
     function addEventListeners(element) {
@@ -329,6 +361,11 @@ $(function() {
             saveState();
         });
 
+        element.find(".name-checkbox, .rough-checkbox, .pen-checkbox, .finish-checkbox").on("change", function() {
+            saveState();
+            updateProgress();
+        });
+
         // 初期ロード時にテキストエリアを自動リサイズ
         element.find(".text").each(function() {
             autoResizeTextarea(this);
@@ -350,4 +387,5 @@ $(function() {
 
     // 各ボードのページ番号を更新
     updatePageNumbers();
+    updateProgress();
 });

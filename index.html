@@ -1,17 +1,39 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>漫画プロット制作ツール</title>
-    <link rel="manifest" href="manifest.json">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>プロットエディター</title>
     <link rel="stylesheet" href="styles.css">
-    <script>
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/service-worker.js')
-        .then(function() { console.log('Service Worker Registered'); });
-      }
-    </script>
+    <style>
+        #progress-display {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        .progress-bar {
+            flex: 1;
+            margin: 5px;
+            padding: 10px;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 18px;
+            text-align: center;
+        }
+        #name-progress {
+            background-color: #D499B9;
+        }
+        #rough-progress {
+            background-color: #9055A2;
+        }
+        #pen-progress {
+            background-color: #2E294E;
+        }
+        #finish-progress {
+            background-color: #011638;
+        }
+    </style>
 </head>
 <body>
     <div id="idea-section" class="column fixed-width">
@@ -20,7 +42,14 @@
         <button id="save">保存</button>
         <button id="save-as">名前をつけて保存</button>
         <button id="open">開く</button>
+        <div id="progress-display">
+            <div id="name-progress" class="progress-bar"></div>
+            <div id="rough-progress" class="progress-bar"></div>
+            <div id="pen-progress" class="progress-bar"></div>
+            <div id="finish-progress" class="progress-bar"></div>
+        </div>
     </div>
+    
     <div id="plot-section" class="column">
         <div class="collapse-button">⇦</div>
         <div class="hidden-content">
